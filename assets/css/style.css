@@ -1,6 +1,6 @@
-/* =========================================================
+﻿/* =========================================================
    MASH LABS V2
-   Applied AI · Data · Engineering
+   Applied AI Â· Data Â· Engineering
    ========================================================= */
 
 
@@ -1771,7 +1771,7 @@ ul {
 
 
 /* =========================================================
-   RESPONSIVE — LAPTOP
+   RESPONSIVE â€” LAPTOP
    ========================================================= */
 
 @media (max-width: 1250px) {
@@ -1821,7 +1821,7 @@ ul {
 
 
 /* =========================================================
-   RESPONSIVE — TABLET
+   RESPONSIVE â€” TABLET
    ========================================================= */
 
 @media (max-width: 980px) {
@@ -1917,7 +1917,7 @@ ul {
 
 
 /* =========================================================
-   RESPONSIVE — MOBILE
+   RESPONSIVE â€” MOBILE
    ========================================================= */
 
 @media (max-width: 680px) {
@@ -2124,4 +2124,41 @@ ul {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
+}
+/* =========================================================
+   MASH LABS MASTER BRAND ASSET
+   ========================================================= */
+
+.brand-logo {
+    display: block;
+    width: 46px;
+    height: 40px;
+    flex-shrink: 0;
+    object-fit: contain;
+
+    filter:
+        drop-shadow(0 0 10px rgba(37, 133, 255, 0.16));
+}
+
+.footer-logo {
+    width: 43px;
+    height: 38px;
+}
+
+@media (max-width: 680px) {
+
+    .brand-logo {
+        width: 40px;
+        height: 35px;
+    }
+
+}
+
+@media (max-width: 420px) {
+
+    .brand-logo {
+        width: 37px;
+        height: 33px;
+    }
+
 }

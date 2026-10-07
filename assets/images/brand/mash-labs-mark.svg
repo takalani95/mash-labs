@@ -1,0 +1,67 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 440" role="img" aria-labelledby="title desc">
+  <title id="title">MASH LABS</title>
+  <desc id="desc">MASH LABS interconnected geometric M brand mark</desc>
+
+  <defs>
+    <linearGradient id="mashLeft" x1="90" y1="385" x2="260" y2="55" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2858FF"/>
+      <stop offset="0.52" stop-color="#2585FF"/>
+      <stop offset="1" stop-color="#22E1E8"/>
+    </linearGradient>
+
+    <linearGradient id="mashRight" x1="250" y1="385" x2="425" y2="55" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2858FF"/>
+      <stop offset="0.50" stop-color="#2585FF"/>
+      <stop offset="1" stop-color="#22E1E8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- LEFT CONTINUOUS STROKE -->
+  <path
+    d="
+      M92 371
+      L92 117
+
+      C92 86 108 62 133 50
+      C158 38 187 44 205 67
+
+      L273 154
+
+      C292 178 288 211 264 230
+      C240 249 205 245 186 220
+
+      L146 169
+      L146 371
+
+      C146 391 134 405 119 405
+      C104 405 92 391 92 371
+      Z
+    "
+    fill="url(#mashLeft)"
+  />
+
+  <!-- RIGHT CONTINUOUS STROKE -->
+  <path
+    d="
+      M366 371
+      L366 169
+
+      L326 220
+
+      C307 245 272 249 248 230
+      C224 211 220 178 239 154
+
+      L307 67
+
+      C325 44 354 38 379 50
+      C404 62 420 86 420 117
+
+      L420 371
+
+      C420 391 408 405 393 405
+      C378 405 366 391 366 371
+      Z
+    "
+    fill="url(#mashRight)"
+  />
+</svg>
