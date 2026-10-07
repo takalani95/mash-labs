@@ -1,0 +1,146 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 512 512"
+     role="img"
+     aria-labelledby="title desc">
+
+  <title id="title">MASH LABS</title>
+  <desc id="desc">MASH LABS official square brand icon</desc>
+
+  <defs>
+
+    <!-- Background -->
+    <radialGradient id="background"
+                    cx="50%" cy="35%" r="80%">
+      <stop offset="0" stop-color="#0C294A"/>
+      <stop offset="0.55" stop-color="#07182D"/>
+      <stop offset="1" stop-color="#030A14"/>
+    </radialGradient>
+
+    <!-- Left side of M -->
+    <linearGradient id="mashLeft"
+                    x1="100" y1="390"
+                    x2="260" y2="90"
+                    gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2858FF"/>
+      <stop offset="0.52" stop-color="#2585FF"/>
+      <stop offset="1" stop-color="#22E1E8"/>
+    </linearGradient>
+
+    <!-- Right side of M -->
+    <linearGradient id="mashRight"
+                    x1="250" y1="390"
+                    x2="420" y2="90"
+                    gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2858FF"/>
+      <stop offset="0.50" stop-color="#2585FF"/>
+      <stop offset="1" stop-color="#22E1E8"/>
+    </linearGradient>
+
+    <!-- Soft glow -->
+    <filter id="glow"
+            x="-30%" y="-30%"
+            width="160%" height="160%">
+      <feGaussianBlur stdDeviation="7"
+                      result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+  </defs>
+
+  <!-- Background -->
+  <rect
+      width="512"
+      height="512"
+      rx="112"
+      fill="url(#background)"
+  />
+
+  <!-- Technical inner border -->
+  <rect
+      x="18"
+      y="18"
+      width="476"
+      height="476"
+      rx="96"
+      fill="none"
+      stroke="#2585FF"
+      stroke-opacity="0.22"
+      stroke-width="2"
+  />
+
+  <!-- Subtle grid -->
+  <g
+      stroke="#2585FF"
+      stroke-opacity="0.045"
+      stroke-width="1">
+
+    <path d="M128 40 V472"/>
+    <path d="M256 40 V472"/>
+    <path d="M384 40 V472"/>
+
+    <path d="M40 128 H472"/>
+    <path d="M40 256 H472"/>
+    <path d="M40 384 H472"/>
+
+  </g>
+
+  <!-- MASH LABS M -->
+  <g transform="translate(0 28)">
+
+    <!-- Left continuous stroke -->
+    <path
+      d="
+        M112 365
+        L112 153
+
+        C112 127 126 106 147 96
+        C168 86 193 91 208 111
+
+        L273 194
+
+        C289 214 286 242 266 258
+        C246 274 217 271 201 250
+
+        L158 195
+        L158 365
+
+        C158 382 148 394 135 394
+        C122 394 112 382 112 365
+        Z
+      "
+      fill="url(#mashLeft)"
+      filter="url(#glow)"
+    />
+
+    <!-- Right continuous stroke -->
+    <path
+      d="
+        M354 365
+        L354 195
+
+        L311 250
+
+        C295 271 266 274 246 258
+        C226 242 223 214 239 194
+
+        L304 111
+
+        C319 91 344 86 365 96
+        C386 106 400 127 400 153
+
+        L400 365
+
+        C400 382 390 394 377 394
+        C364 394 354 382 354 365
+        Z
+      "
+      fill="url(#mashRight)"
+      filter="url(#glow)"
+    />
+
+  </g>
+
+</svg>
