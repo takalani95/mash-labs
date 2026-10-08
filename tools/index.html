@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools | MASH LABS</title>
+    <meta name="description" content="Explore intelligent data tools developed by MASH LABS.">
+    <link rel="icon" type="image/svg+xml" href="../assets/images/brand/mash-labs-mark.svg">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/tools.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navbar container">
+            <a class="brand" href="../index.html#home" aria-label="MASH LABS home">
+                <div class="brand-symbol" aria-hidden="true">
+                    <span class="symbol-left"></span>
+                    <span class="symbol-middle"></span>
+                    <span class="symbol-right"></span>
+                </div>
+                <div class="brand-copy">
+                    <strong>MASH LABS</strong>
+                    <span>APPLIED AI · DATA · ENGINEERING</span>
+                </div>
+            </a>
+
+            <button class="menu-toggle" type="button"
+                    aria-label="Open navigation" aria-expanded="false">
+                <span></span><span></span>
+            </button>
+
+            <div class="nav-links">
+                <a href="../index.html#home">Home</a>
+                <a href="../index.html#services">What We Do</a>
+                <a href="../index.html#process">How We Work</a>
+                <a href="./" aria-current="page">Tools</a>
+            </div>
+
+            <a class="nav-cta" href="../index.html#contact">Get in Touch →</a>
+        </nav>
+    </header>
+
+    <main class="tools-main">
+        <section class="container tools-intro">
+            <p class="tools-eyebrow">MASH LABS / TOOLS</p>
+            <h1>Intelligent tools for <span>real-world data.</span></h1>
+            <p class="tools-lead">
+                Explore practical data intelligence systems built to help
+                businesses understand, validate and analyse their data.
+            </p>
+        </section>
+
+        <section class="container tool-panel" aria-labelledby="audit-title">
+            <div class="tool-heading">
+                <div>
+                    <p class="tools-eyebrow">DATA INTELLIGENCE / BETA</p>
+                    <h2 id="audit-title">Data Audit Engine</h2>
+                    <p>
+                        A Python-powered data auditing and visual analytics engine
+                        designed to uncover data quality issues, identify patterns
+                        and recommend meaningful visualisations.
+                    </p>
+                </div>
+                <span class="tool-status">Integration in progress</span>
+            </div>
+
+            <div class="tool-features">
+                <article>
+                    <h3>Data Quality</h3>
+                    <p>Inspect missing values, duplicates, data types and quality indicators.</p>
+                </article>
+                <article>
+                    <h3>Visual Analytics</h3>
+                    <p>Explore distributions, correlations, missingness and time trends.</p>
+                </article>
+                <article>
+                    <h3>Smart Recommendations</h3>
+                    <p>Identify suitable chart types using column intelligence.</p>
+                </article>
+                <article>
+                    <h3>Duration Intelligence</h3>
+                    <p>Analyse operational durations, parsing success and distributions.</p>
+                </article>
+            </div>
+
+            
+<div class="tool-upload">
+    <h3>Upload your dataset</h3>
+
+    <p>
+        Select a CSV or Excel file to analyse its data quality,
+        structure and recommended visualisations.
+    </p>
+
+    <form id="audit-form">
+        <label for="dataset-file">Choose a dataset</label>
+
+        <input
+            type="file"
+            id="dataset-file"
+            name="file"
+            accept=".csv,.xlsx"
+            required
+        >
+
+        <small>Supported formats: CSV, XLSX. Maximum size: 5 MB.</small>
+
+        <button type="submit" id="audit-submit">
+            Analyse Dataset
+        </button>
+    </form>
+
+    <p id="audit-message" role="status" aria-live="polite"></p>
+
+    <section id="audit-results" hidden aria-label="Dataset audit results">
+        <h3>Audit Results</h3>
+        <div id="audit-summary"></div>
+        <div id="audit-quality"></div>
+        <div id="audit-recommendations"></div>
+    </section>
+
+    <small>
+        Local development beta. Use synthetic or non-sensitive
+        datasets only.
+    </small>
+</div>
+
+            </div>
+        </section>
+    </main>
+
+    <script src="../assets/js/main.js"></script>
+<script src="../assets/js/tools/audit.js"></script>
+</body>
+</html>
+</body>
+</html>
