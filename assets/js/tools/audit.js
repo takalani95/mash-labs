@@ -32,7 +32,7 @@ function displayResults(data) {
     qualityContainer.replaceChildren();
     recommendationsContainer.replaceChildren();
 
-    
+
     addText(summary, "h4", "Dataset Summary");
     addText(summary, "p", `File: ${data.filename}`);
 
@@ -77,7 +77,7 @@ function displayResults(data) {
         "p",
         `Warnings: ${data.quality.warning_count}`
     );
-     
+
     // Detailed data quality findings
     const issues = data.quality.issues || [];
 
