@@ -1,8 +1,25 @@
 
 "use strict";
 
-const API_URL = "http://127.0.0.1:8001/api/audit";
+// Use the local API while testing.
+// Change to the Render URL only after deploying and configuring
+// the authenticated backend.
+const API_BASE_URL = "https://mash-labs-data-audit-api.onrender.com";
+
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
+// Owner session is stored in memory only.
+let ownerSessionToken = null;
+
+const loginSection = document.getElementById("owner-login-section");
+const loginForm = document.getElementById("owner-login-form");
+const passwordInput = document.getElementById("owner-password");
+const loginButton = document.getElementById("owner-login-submit");
+const loginMessage = document.getElementById("owner-login-message");
+
+const sessionSection = document.getElementById("owner-session-section");
+const logoutButton = document.getElementById("owner-logout");
+const auditSection = document.getElementById("owner-audit-section");
 
 const form = document.getElementById("audit-form");
 const fileInput = document.getElementById("dataset-file");
@@ -27,11 +44,121 @@ function addText(parent, tag, text) {
     return element;
 }
 
+function setAuthenticated(isAuthenticated) {
+    loginSection.hidden = isAuthenticated;
+    sessionSection.hidden = !isAuthenticated;
+    auditSection.hidden = !isAuthenticated;
+
+    if (!isAuthenticated) {
+        ownerSessionToken = null;
+        passwordInput.value = "";
+        fileInput.value = "";
+        results.hidden = true;
+        summary.replaceChildren();
+        qualityContainer.replaceChildren();
+        recommendationsContainer.replaceChildren();
+        showMessage("");
+    }
+}
+
+async function readResponse(response) {
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+        const detail = typeof data.detail === "string"
+            ? data.detail
+            : `Request failed (${response.status}).`;
+
+        const error = new Error(detail);
+        error.status = response.status;
+        throw error;
+    }
+
+    return data;
+}
+
+// OWNER LOGIN
+loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const password = passwordInput.value;
+
+    if (!password) {
+        loginMessage.textContent = "Please enter your password.";
+        return;
+    }
+
+    loginButton.disabled = true;
+    loginMessage.textContent = "Signing in...";
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}/api/auth/login`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ password }),
+                cache: "no-store"
+            }
+        );
+
+        const data = await readResponse(response);
+
+        if (typeof data.session_token !== "string" ||
+            !data.session_token) {
+            throw new Error("No session token was returned.");
+        }
+
+        ownerSessionToken = data.session_token;
+        passwordInput.value = "";
+
+        setAuthenticated(true);
+        loginMessage.textContent = "";
+
+    } catch (error) {
+        ownerSessionToken = null;
+        loginMessage.textContent = `Login failed: ${error.message}`;
+    } finally {
+        loginButton.disabled = false;
+    }
+});
+
+// OWNER LOGOUT
+logoutButton.addEventListener("click", async () => {
+    const token = ownerSessionToken;
+
+    // Lock the interface immediately.
+    setAuthenticated(false);
+    loginMessage.textContent = "Signing out...";
+
+    if (token) {
+        try {
+            const response = await fetch(
+                `${API_BASE_URL}/api/auth/logout`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    },
+                    cache: "no-store"
+                }
+            );
+
+            await readResponse(response);
+            loginMessage.textContent = "Signed out successfully.";
+        } catch (error) {
+            loginMessage.textContent =
+                "Signed out of this browser. Server logout could not be confirmed.";
+        }
+    }
+});
+
 function displayResults(data) {
     summary.replaceChildren();
     qualityContainer.replaceChildren();
     recommendationsContainer.replaceChildren();
-
 
     addText(summary, "h4", "Dataset Summary");
     addText(summary, "p", `File: ${data.filename}`);
@@ -55,7 +182,6 @@ function displayResults(data) {
 
     summary.appendChild(metrics);
 
-
     addText(qualityContainer, "h4", "Data Quality");
     addText(
         qualityContainer,
@@ -78,7 +204,6 @@ function displayResults(data) {
         `Warnings: ${data.quality.warning_count}`
     );
 
-    // Detailed data quality findings
     const issues = data.quality.issues || [];
 
     const findings = document.createElement("div");
@@ -92,8 +217,9 @@ function displayResults(data) {
 
     for (const issue of issues) {
         const card = document.createElement("article");
-
-        const severity = String(issue.severity || "info").toLowerCase();
+        const severity = String(
+            issue.severity || "info"
+        ).toLowerCase();
 
         card.className = "audit-issue";
 
@@ -135,14 +261,14 @@ function displayResults(data) {
 
     qualityContainer.appendChild(findings);
 
-
     addText(
         recommendationsContainer,
         "h4",
         "Chart Recommendations"
     );
 
-    const recommendations = data.recommendations.recommended || [];
+    const recommendations =
+        data.recommendations.recommended || [];
 
     if (recommendations.length === 0) {
         addText(
@@ -167,8 +293,17 @@ function displayResults(data) {
     results.hidden = false;
 }
 
+// AUTHENTICATED DATASET UPLOAD
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
+
+    const token = ownerSessionToken;
+
+    if (!token) {
+        setAuthenticated(false);
+        loginMessage.textContent = "Please sign in first.";
+        return;
+    }
 
     const file = fileInput.files[0];
 
@@ -197,27 +332,44 @@ form.addEventListener("submit", async (event) => {
     results.hidden = true;
 
     try {
-        const response = await fetch(API_URL, {
-            method: "POST",
-            body: formData
-        });
+        const response = await fetch(
+            `${API_BASE_URL}/api/audit/owner`,
+            {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+                body: formData,
+                cache: "no-store"
+            }
+        );
 
-        const data = await response.json();
+        const data = await readResponse(response);
 
-        if (!response.ok) {
-            throw new Error(
-                typeof data.detail === "string"
-                    ? data.detail
-                    : "Dataset analysis failed."
-            );
+        // Ignore results if the owner logged out during the request.
+        if (ownerSessionToken !== token) {
+            return;
         }
 
         displayResults(data);
         showMessage("Dataset analysis completed successfully.");
 
     } catch (error) {
-        showMessage(`Error: ${error.message}`);
+        if (ownerSessionToken !== token) {
+            return;
+        }
+
+        if (error.status === 401) {
+            setAuthenticated(false);
+            loginMessage.textContent =
+                "Your session has expired. Please sign in again.";
+        } else {
+            showMessage(`Error: ${error.message}`);
+        }
     } finally {
         submitButton.disabled = false;
     }
 });
+
+// Always require login after a page refresh.
+setAuthenticated(false);
